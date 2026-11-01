@@ -7,9 +7,9 @@ if (list && cases.length) {
     const info = document.createElement('div'); info.className = 'case-info';
     const meta = document.createElement('div'); meta.className = 'case-meta';
     for (const value of [item.category, item.year]) { const span = document.createElement('span'); span.textContent = value.toUpperCase(); meta.append(span); }
-    const h = document.createElement('h3'); h.textContent = item.title + ' ↗';
+    const h = document.createElement('h3'); h.textContent = item.title;
     const p = document.createElement('p'); p.textContent = item.description;
-    const label = document.createElement('span'); label.className = 'case-read'; label.textContent = 'ИЗУЧИТЬ КЕЙС →';
+    const label = document.createElement('span'); label.className = 'case-read'; label.textContent = 'Изучить кейс '; label.insertAdjacentHTML('beforeend', '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>');
     info.append(meta, h, p, label); a.append(img, info); return a;
   }));
 }

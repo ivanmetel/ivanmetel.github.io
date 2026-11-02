@@ -6,7 +6,10 @@ const note = document.getElementById('dialogNote');
 const submitButton = form.querySelector('[type="submit"]');
 const isEnglish = document.documentElement.lang === 'en';
 
-openButton.addEventListener('click', () => dialog.showModal());
+openButton.addEventListener('click', () => {
+  note.textContent = isEnglish ? 'Leave your contact details so I can reply.' : 'Оставьте контакт, чтобы я мог ответить.';
+  dialog.showModal();
+});
 closeButton.addEventListener('click', () => dialog.close());
 dialog.addEventListener('close', () => openButton.focus());
 
@@ -37,6 +40,7 @@ form.addEventListener('submit', async event => {
     if (!response.ok) throw new Error('Telegram delivery failed');
     form.reset();
     note.textContent = isEnglish ? 'Message sent. Thank you!' : 'Сообщение отправлено. Спасибо!';
+    dialog.close();
   } catch {
     note.textContent = isEnglish ? 'Could not send the message. Please try again.' : 'Не удалось отправить сообщение. Попробуйте ещё раз.';
   } finally {

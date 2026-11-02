@@ -1,0 +1,6 @@
+name = "ivan-portfolio-contact"
+main = "index.js"
+compatibility_date = "2026-11-02"
+
+[vars]
+ALLOWED_ORIGINS = "https://ivanmetel.github.io,http://127.0.0.1:4173"

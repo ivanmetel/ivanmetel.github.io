@@ -6,8 +6,19 @@ const note = document.getElementById('dialogNote');
 const submitButton = form.querySelector('[type="submit"]');
 const isEnglish = document.documentElement.lang === 'en';
 
+const status = document.createElement('p');
+status.className = 'contact-status';
+status.setAttribute('role', 'status');
+status.setAttribute('aria-live', 'polite');
+status.tabIndex = -1;
+status.hidden = true;
+openButton.after(status);
+
 openButton.addEventListener('click', () => {
-  note.textContent = isEnglish ? 'Leave your contact details so I can reply.' : 'Оставьте контакт, чтобы я мог ответить.';
+  status.hidden = true;
+  note.textContent = isEnglish
+    ? 'Send your message, and I’ll get back to you.'
+    : 'Отправьте сообщение, и я свяжусь с вами';
   dialog.showModal();
 });
 closeButton.addEventListener('click', () => dialog.close());
@@ -37,10 +48,15 @@ form.addEventListener('submit', async event => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    if (!response.ok) throw new Error('Telegram delivery failed');
+    let result = null;
+    try { result = await response.json(); } catch { /* Some endpoints return an empty body. */ }
+    if (!response.ok || result?.ok === false) throw new Error('Telegram delivery failed');
+
     form.reset();
-    note.textContent = isEnglish ? 'Message sent. Thank you!' : 'Сообщение отправлено. Спасибо!';
     dialog.close();
+    status.textContent = isEnglish ? 'Message sent. Thank you!' : 'Сообщение отправлено. Спасибо!';
+    status.hidden = false;
+    status.focus({ preventScroll: true });
   } catch {
     note.textContent = isEnglish ? 'Could not send the message. Please try again.' : 'Не удалось отправить сообщение. Попробуйте ещё раз.';
   } finally {

@@ -15,3 +15,14 @@
 /* Case shell follows the homepage header, footer and readable type scale. */
 header{width:min(1440px,calc(100% - 96px));height:auto;min-height:86px;letter-spacing:0}.simple-brand{font-size:15px;font-weight:700;white-space:nowrap}.simple-header nav{display:flex;align-items:center;gap:28px;font-size:15px;color:var(--muted)}.simple-header nav a:hover{color:var(--lime)}.hero h1{font-size:clamp(42px,6vw,88px)}.step p{font-size:15px}.caption,.story-caption,.model-label,.table-note{font-size:14px}.case-facts span{font-size:15px}.decode-top,.decode-bottom{font-size:12px}.decode-card figcaption p{font-size:15px}.portfolio-contact p{font-size:20px}.portfolio-contact div:not(.eyebrow){font-size:15px}
 @media(max-width:760px){header{width:calc(100% - 36px)}.simple-header{min-height:70px}.simple-header nav{gap:20px;overflow-x:auto}.simple-header nav a{font-size:14px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center}.nav{display:flex}.case-facts span{font-size:14px}}
+
+/* Shared type scale: display, section, lead, body, small. */
+.case-page{color:var(--color-ink)}
+.case-page :is(.simple-header nav,.circle-link,.hero-link,.case-footer,.portfolio-contact div:not(.eyebrow),.body,.hero-intro p,.case-facts span,.step p,.decode-card figcaption p,.data-row,.work-scroll table,.gantt-work strong,.home-about p,.model-copy p){font-size:var(--type-body)}
+.case-page :is(.meta,.eyebrow,.case-facts strong,.caption,.frame-overlay,.model-label,.table-note,.decode-top,.decode-bottom,.decode-card figcaption span,.gantt-header,.gantt-work>span,.gantt-work small,.gantt-footer,.gantt-hint,.work-scroll th,.case-footer strong,.back-cases,.decode-actions button,.cloud-toggle){font-size:var(--type-small)}
+.case-page :is(.lead,.model-copy h3,.data-row strong,.decode-card figcaption strong,.gantt-intro h3,.proposal-title,.case-thesis,.step h3,.value-item h3,.role-box h3){font-size:var(--type-lead)}
+.case-page .hero h1{font-size:var(--type-display)}
+.case-page :is(.section h2,.closing h2,.home-about h2){font-size:var(--type-section)}
+.case-page .light{color:var(--color-paper-ink)}
+.case-page .light :is(.body,.lead,.data-row,.work-scroll table,.gantt-work strong,.gantt-intro h3,.proposal-title,.case-thesis,.step p,.value-item p,.role-box p,.home-about p){color:var(--color-paper-ink)}
+.case-page .light :is(.meta,.eyebrow,.caption,.frame-overlay,.model-label,.decode-top,.decode-bottom,.gantt-header,.gantt-footer,.case-footer strong){color:var(--color-paper-muted)}

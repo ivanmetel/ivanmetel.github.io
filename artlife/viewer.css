@@ -1,0 +1,152 @@
+:root {
+  color-scheme: dark;
+  font-family: Manrope, Arial, sans-serif;
+  background: #18242c;
+  color: #eceeeb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --muted: #b5c0c3;
+  --line: #435158;
+  --accent: #bad4dc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: #18242c;
+}
+
+button, input { font: inherit; }
+
+button, a, input { -webkit-tap-highlight-color: transparent; }
+
+a { color: inherit; text-decoration: none; }
+
+.viewer-app {
+  width: min(1440px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 0 0 48px;
+}
+
+.viewer-header {
+  min-height: 144px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.back-link, .download-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.download-link { justify-self: end; color: var(--accent); }
+.back-link:hover, .download-link:hover { color: #fff; }
+
+.document-heading { padding: 20px 0; text-align: center; }
+.eyebrow { margin: 0 0 7px; color: var(--accent); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.document-heading h1 { margin: 0; font: 500 clamp(25px, 3vw, 38px)/1.15 Georgia, serif; }
+.author { margin: 5px 0 0; color: var(--muted); font-size: 14px; }
+
+.pdf-viewer { margin-top: 22px; }
+
+.toolbar {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  background: #202e35;
+}
+
+.page-controls, .zoom-controls { display: flex; align-items: center; gap: 8px; }
+.page-label, .page-count, .zoom-level { color: var(--muted); font-size: 13px; white-space: nowrap; }
+
+.control-button, .page-input {
+  height: 38px;
+  border: 1px solid #53636a;
+  border-radius: 3px;
+  background: #18242c;
+  color: #eceeeb;
+}
+
+.control-button { min-width: 38px; padding: 0 10px; cursor: pointer; }
+.icon-button { font-size: 22px; line-height: 1; }
+.fit-button { font-size: 12px; }
+.page-input { width: 58px; padding: 0 6px; text-align: center; }
+.control-button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.control-button:disabled { opacity: .45; cursor: default; }
+.control-button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.page-input:disabled { opacity: .6; }
+
+.status {
+  min-height: 37px;
+  padding: 11px 0 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.status[data-state="error"] { color: #ffb3aa; }
+.load-progress { display: block; width: 100%; height: 3px; margin: 0 0 12px; accent-color: var(--accent); }
+.load-progress:indeterminate { opacity: .45; }
+.load-progress[hidden] { display: none; }
+
+.viewer-stage {
+  min-height: 360px;
+  overflow: auto;
+  padding: 24px;
+  background: #29383f;
+  overscroll-behavior: contain;
+}
+
+.page-shell {
+  width: max-content;
+  min-width: min(100%, 480px);
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 10px 40px #0005;
+}
+
+#pdfCanvas { display: block; max-width: none; height: auto; }
+
+:focus-visible { outline: 3px solid #96bdc5; outline-offset: 3px; }
+
+noscript { display: block; margin-top: 20px; color: var(--muted); }
+
+@media (max-width: 700px) {
+  .viewer-app { width: calc(100% - 24px); padding-bottom: 20px; }
+  .viewer-header { min-height: 112px; grid-template-columns: 1fr auto; gap: 10px 14px; padding: 12px 0; }
+  .back-link { grid-column: 1; grid-row: 1; font-size: 13px; }
+  .download-link { grid-column: 2; grid-row: 1; font-size: 13px; }
+  .document-heading { grid-column: 1 / -1; grid-row: 2; padding: 4px 0 8px; }
+  .pdf-viewer { margin-top: 12px; }
+  .toolbar { align-items: stretch; flex-direction: column; gap: 7px; padding: 8px; }
+  .page-controls, .zoom-controls { justify-content: center; }
+  .page-controls { gap: 7px; }
+  .zoom-controls { gap: 8px; }
+  .viewer-stage { min-height: 300px; padding: 12px 6px; }
+  .page-shell { min-width: 0; }
+  .zoom-level { min-width: 66px; text-align: center; }
+}
+
+@media (max-width: 360px) {
+  .viewer-app { width: calc(100% - 16px); }
+  .page-label { display: none; }
+  .toolbar { padding: 6px; }
+  .control-button { min-width: 36px; }
+  .fit-button { padding: 0 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}

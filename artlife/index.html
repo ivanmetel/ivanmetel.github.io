@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#18242c">
+    <meta name="description" content="Реестр отобранных работ Дарьи Камышановой.">
+    <title>In Progress — Дарья Камышанова</title>
+    <link rel="stylesheet" href="./viewer.css?v=1">
+    <script type="module" src="./viewer.js?v=1"></script>
+  </head>
+  <body>
+    <main class="viewer-app">
+      <header class="viewer-header">
+        <a class="back-link" href="/" aria-label="На главную страницу">← <span>На главную</span></a>
+        <div class="document-heading">
+          <p class="eyebrow">Реестр отобранных работ</p>
+          <h1>In Progress</h1>
+          <p class="author">Дарья Камышанова</p>
+        </div>
+        <a class="download-link" href="./in-progress.pdf" download>Скачать PDF <span aria-hidden="true">↓</span></a>
+      </header>
+
+      <section class="pdf-viewer" aria-label="Просмотр PDF">
+        <div class="toolbar" role="toolbar" aria-label="Управление просмотром PDF">
+          <div class="page-controls">
+            <button id="previousPage" class="control-button icon-button" type="button" aria-label="Предыдущая страница" title="Предыдущая страница" disabled>‹</button>
+            <label class="page-label" for="pageNumber">Страница</label>
+            <input id="pageNumber" class="page-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Номер страницы" disabled>
+            <span id="pageCount" class="page-count" aria-live="polite">/ …</span>
+            <button id="nextPage" class="control-button icon-button" type="button" aria-label="Следующая страница" title="Следующая страница" disabled>›</button>
+          </div>
+
+          <div class="zoom-controls">
+            <button id="zoomOut" class="control-button icon-button" type="button" aria-label="Уменьшить масштаб" title="Уменьшить масштаб" disabled>−</button>
+            <output id="zoomLevel" class="zoom-level" aria-live="polite">По ширине</output>
+            <button id="zoomIn" class="control-button icon-button" type="button" aria-label="Увеличить масштаб" title="Увеличить масштаб" disabled>+</button>
+            <button id="fitWidth" class="control-button fit-button" type="button" aria-pressed="true" disabled>По ширине</button>
+          </div>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite">Загрузка документа…</div>
+        <progress id="loadProgress" class="load-progress" max="100" value="0" aria-label="Загрузка PDF"></progress>
+
+        <div id="viewerStage" class="viewer-stage">
+          <div class="page-shell">
+            <canvas id="pdfCanvas" role="img" aria-label="Страница PDF"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <noscript>Для просмотра PDF включите JavaScript в браузере или скачайте файл.</noscript>
+    </main>
+  </body>
+</html>

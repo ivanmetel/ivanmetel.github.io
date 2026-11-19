@@ -27,6 +27,18 @@ let scale = defaultScale;
 let activeRender;
 let renderVersion = 0;
 let resizeFrame;
+let heightFrame;
+
+function notifyEmbedHeight() {
+  if (window.parent === window) return;
+  cancelAnimationFrame(heightFrame);
+  heightFrame = requestAnimationFrame(() => {
+    window.parent.postMessage({
+      type: "artlife-pdf-viewer-height",
+      height: document.documentElement.scrollHeight,
+    }, "*");
+  });
+}
 
 function setStatus(message, state = "") {
   status.textContent = message;
@@ -86,6 +98,7 @@ async function renderPage() {
     if (thisRender === renderVersion) {
       setStatus("");
       updateControls();
+      notifyEmbedHeight();
     }
   } catch (error) {
     if (activeRender === renderTask) activeRender = undefined;
@@ -139,6 +152,7 @@ const resizeObserver = new ResizeObserver(() => {
 resizeObserver.observe(stage);
 
 updateControls();
+notifyEmbedHeight();
 
 downloadLink.href = pdfUrl;
 const loadingTask = getDocument({ url: pdfUrl, rangeChunkSize: 65536 });

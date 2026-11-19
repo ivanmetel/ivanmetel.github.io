@@ -7,7 +7,7 @@
     <meta name="description" content="Просмотр PDF-документа.">
     <title>PDF</title>
     <link rel="stylesheet" href="./viewer.css?v=8">
-    <script type="module" src="./viewer.js?v=10"></script>
+    <script type="module" src="./viewer.js?v=11"></script>
   </head>
   <body>
     <main class="viewer-app">
@@ -24,7 +24,7 @@
             <output id="zoomLevel" class="zoom-level" aria-live="polite">80%</output>
             <button id="zoomIn" class="control-button icon-button" type="button" aria-label="Увеличить масштаб" title="Увеличить масштаб" disabled>+</button>
           </div>
-          <a class="control-button compact-button download-link" href="./in-progress.pdf?v=2" download>Скачать PDF</a>
+          <a id="downloadPdf" class="control-button compact-button download-link" href="./in-progress.pdf?v=2" download>Скачать PDF</a>
         </div>
 
         <div id="status" class="status" role="status" aria-live="polite">Загрузка документа…</div>

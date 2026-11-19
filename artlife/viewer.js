@@ -13,6 +13,9 @@ const previousButton = document.querySelector("#previousPage");
 const nextButton = document.querySelector("#nextPage");
 const zoomOutButton = document.querySelector("#zoomOut");
 const zoomInButton = document.querySelector("#zoomIn");
+const downloadLink = document.querySelector("#downloadPdf");
+const englishPdf = new URLSearchParams(window.location.search).get("lang") === "en";
+const pdfUrl = englishPdf ? "./in-progress-en.pdf?v=1" : "./in-progress.pdf?v=2";
 
 const minScale = 0.1;
 const maxScale = 3;
@@ -137,7 +140,8 @@ resizeObserver.observe(stage);
 
 updateControls();
 
-const loadingTask = getDocument({ url: "./in-progress.pdf?v=2", rangeChunkSize: 65536 });
+downloadLink.href = pdfUrl;
+const loadingTask = getDocument({ url: pdfUrl, rangeChunkSize: 65536 });
 loadingTask.onProgress = ({ loaded, total }) => {
   if (!pdfDocument && total > 0) {
     progress.removeAttribute("value");

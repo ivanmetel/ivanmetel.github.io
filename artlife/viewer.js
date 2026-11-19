@@ -45,7 +45,7 @@ function updateControls() {
   pageInput.max = ready ? String(pdfDocument.numPages) : "1";
   pageInput.value = String(pageNumber);
   pageCount.textContent = ready ? `/ ${pdfDocument.numPages}` : "/ …";
-  zoomLevel.textContent = fitToWidth ? "По ширине" : `${Math.round(scale * 100)}%`;
+  zoomLevel.textContent = `${Math.round((fitToWidth ? currentFitScale : scale) * 100)}%`;
   canvas.setAttribute("aria-label", ready ? `Страница ${pageNumber} из ${pdfDocument.numPages}` : "Страница PDF");
 }
 
@@ -103,7 +103,7 @@ async function renderPage() {
     if (activeRender === renderTask) activeRender = undefined;
     if (error?.name !== "RenderingCancelledException") {
       console.error(error);
-      setStatus("Не удалось отобразить страницу. Попробуйте скачать оригинал PDF.", "error");
+      setStatus("Не удалось отобразить страницу. Обновите страницу и попробуйте ещё раз.", "error");
     }
   }
 }
@@ -159,7 +159,7 @@ resizeObserver.observe(stage);
 
 updateControls();
 
-const loadingTask = getDocument({ url: "./in-progress.pdf", rangeChunkSize: 65536 });
+const loadingTask = getDocument({ url: "./in-progress.pdf?v=2", rangeChunkSize: 65536 });
 loadingTask.onProgress = ({ loaded, total }) => {
   if (!pdfDocument && total > 0) {
     progress.removeAttribute("value");
@@ -177,5 +177,5 @@ try {
 } catch (error) {
   console.error(error);
   progress.hidden = true;
-  setStatus("Не удалось загрузить PDF. Обновите страницу или скачайте оригинал.", "error");
+  setStatus("Не удалось загрузить PDF. Обновите страницу и попробуйте ещё раз.", "error");
 }

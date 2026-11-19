@@ -13,16 +13,14 @@ const previousButton = document.querySelector("#previousPage");
 const nextButton = document.querySelector("#nextPage");
 const zoomOutButton = document.querySelector("#zoomOut");
 const zoomInButton = document.querySelector("#zoomIn");
-const fitWidthButton = document.querySelector("#fitWidth");
 
 const minScale = 0.1;
 const maxScale = 3;
 const scaleStep = 0.2;
+const defaultScale = 0.8;
 let pdfDocument;
 let pageNumber = 1;
-let scale = 1;
-let currentFitScale = 1;
-let fitToWidth = true;
+let scale = defaultScale;
 let activeRender;
 let renderVersion = 0;
 let resizeFrame;
@@ -30,6 +28,7 @@ let resizeFrame;
 function setStatus(message, state = "") {
   status.textContent = message;
   status.dataset.state = state;
+  status.hidden = !message;
 }
 
 function updateControls() {
@@ -37,21 +36,12 @@ function updateControls() {
   pageInput.disabled = !ready;
   previousButton.disabled = !ready || pageNumber <= 1;
   nextButton.disabled = !ready || pageNumber >= pdfDocument.numPages;
-  zoomOutButton.disabled = !ready || (!fitToWidth && scale <= minScale);
-  zoomInButton.disabled = !ready || (!fitToWidth && scale >= maxScale);
-  fitWidthButton.disabled = !ready;
-  fitWidthButton.setAttribute("aria-pressed", String(fitToWidth));
+  zoomOutButton.disabled = !ready || scale <= minScale;
+  zoomInButton.disabled = !ready || scale >= maxScale;
   pageInput.max = ready ? String(pdfDocument.numPages) : "1";
   pageInput.value = String(pageNumber);
-  zoomLevel.textContent = `${Math.round((fitToWidth ? currentFitScale : scale) * 100)}%`;
-  canvas.setAttribute("aria-label", ready ? `Страница ${pageNumber}` : "Страница PDF");
-}
-
-function fitScale(viewport) {
-  const stageStyle = getComputedStyle(stage);
-  const horizontalPadding = parseFloat(stageStyle.paddingLeft) + parseFloat(stageStyle.paddingRight);
-  const availableWidth = Math.max(240, stage.clientWidth - horizontalPadding - 8);
-  return Math.min(maxScale, Math.max(minScale, availableWidth / viewport.width));
+  zoomLevel.textContent = `${Math.round(scale * 100)}%`;
+  canvas.setAttribute("aria-label", ready ? "Содержимое страницы PDF" : "Страница PDF");
 }
 
 async function renderPage() {
@@ -75,10 +65,7 @@ async function renderPage() {
     const page = await pdfDocument.getPage(pageNumber);
     if (thisRender !== renderVersion) return;
 
-    const baseViewport = page.getViewport({ scale: 1 });
-    const pageScale = fitToWidth ? fitScale(baseViewport) : scale;
-    if (fitToWidth) currentFitScale = pageScale;
-    const viewport = page.getViewport({ scale: pageScale });
+    const viewport = page.getViewport({ scale });
     const maxCanvasPixels = 16000000;
     const pixelScaleLimit = Math.sqrt(maxCanvasPixels / (viewport.width * viewport.height));
     const outputScale = Math.max(0.5, Math.min(window.devicePixelRatio || 1, 2, pixelScaleLimit));
@@ -94,7 +81,7 @@ async function renderPage() {
     await renderTask.promise;
     if (activeRender === renderTask) activeRender = undefined;
     if (thisRender === renderVersion) {
-      setStatus(`Страница ${pageNumber}`);
+      setStatus("");
       updateControls();
     }
   } catch (error) {
@@ -116,8 +103,6 @@ function goToPage(value) {
 
 function changeScale(direction) {
   if (!pdfDocument) return;
-  if (fitToWidth) scale = currentFitScale;
-  fitToWidth = false;
   scale = Math.max(minScale, Math.min(maxScale, Math.round((scale + direction * scaleStep) * 100) / 100));
   updateControls();
   renderPage();
@@ -134,11 +119,6 @@ pageInput.addEventListener("keydown", event => {
 });
 zoomOutButton.addEventListener("click", () => changeScale(-1));
 zoomInButton.addEventListener("click", () => changeScale(1));
-fitWidthButton.addEventListener("click", () => {
-  fitToWidth = true;
-  updateControls();
-  renderPage();
-});
 
 window.addEventListener("keydown", event => {
   if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "")) return;
@@ -149,7 +129,7 @@ window.addEventListener("keydown", event => {
 });
 
 const resizeObserver = new ResizeObserver(() => {
-  if (!fitToWidth || !pdfDocument) return;
+  if (!pdfDocument) return;
   cancelAnimationFrame(resizeFrame);
   resizeFrame = requestAnimationFrame(renderPage);
 });

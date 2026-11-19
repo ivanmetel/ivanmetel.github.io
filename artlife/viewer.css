@@ -14,7 +14,10 @@
 
 body {
   min-width: 320px;
+  height: 100vh;
+  height: 100dvh;
   margin: 0;
+  overflow: hidden;
   background: #18242c;
 }
 
@@ -25,17 +28,19 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }
 
 .viewer-app {
+  height: 100%;
   width: 100%;
   margin: 0;
 }
 
-.pdf-viewer { margin: 0; }
+.pdf-viewer { height: 100%; display: flex; flex-direction: column; margin: 0; }
 
 .toolbar {
   position: sticky;
   top: 0;
   z-index: 2;
   min-height: 58px;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -58,7 +63,7 @@ a { color: inherit; text-decoration: none; }
 
 .control-button { min-width: 38px; padding: 0 10px; cursor: pointer; }
 .icon-button { font-size: 22px; line-height: 1; }
-.fit-button { font-size: 12px; }
+.compact-button { font-size: 12px; }
 .download-link { display: inline-flex; align-items: center; justify-content: center; padding: 0 10px; text-decoration: none; white-space: nowrap; }
 .page-input { width: 58px; padding: 0 6px; text-align: center; }
 .control-button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
@@ -69,20 +74,20 @@ a { color: inherit; text-decoration: none; }
 
 .status {
   min-height: 37px;
+  flex: 0 0 auto;
   padding: 11px 0 5px;
   color: var(--muted);
   font-size: 12px;
 }
 
 .status[data-state="error"] { color: #ffb3aa; }
-.load-progress { display: block; width: 100%; height: 3px; margin: 0 0 12px; accent-color: var(--accent); }
+.load-progress { display: block; flex: 0 0 auto; width: 100%; height: 3px; margin: 0 0 12px; accent-color: var(--accent); }
 .load-progress:indeterminate { opacity: .45; }
 .load-progress[hidden] { display: none; }
 
 .viewer-stage {
-  height: calc(100vh - 95px);
-  height: calc(100dvh - 95px);
-  min-height: 280px;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
   padding: 24px;
   background: #29383f;
@@ -107,7 +112,7 @@ a { color: inherit; text-decoration: none; }
   .page-controls { gap: 7px; }
   .zoom-controls { gap: 8px; }
   .download-link { align-self: center; }
-  .viewer-stage { height: calc(100vh - 183px); height: calc(100dvh - 183px); min-height: 280px; padding: 12px 6px; }
+  .viewer-stage { padding: 12px 6px; }
   .page-shell { min-width: 0; }
   .zoom-level { min-width: 66px; text-align: center; }
 }
@@ -115,7 +120,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 360px) {
   .toolbar { padding: 6px; }
   .control-button { min-width: 36px; }
-  .fit-button { padding: 0 7px; }
+  .compact-button { padding: 0 7px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

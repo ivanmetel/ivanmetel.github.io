@@ -7,7 +7,7 @@
     <meta name="description" content="Просмотр PDF-документа.">
     <title>PDF</title>
     <link rel="stylesheet" href="./viewer.css?v=2">
-    <script type="module" src="./viewer.js?v=2"></script>
+    <script type="module" src="./viewer.js?v=3"></script>
   </head>
   <body>
     <main class="viewer-app">
@@ -16,7 +16,6 @@
           <div class="page-controls">
             <button id="previousPage" class="control-button icon-button" type="button" aria-label="Предыдущая страница" title="Предыдущая страница" disabled>‹</button>
             <input id="pageNumber" class="page-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Номер страницы" disabled>
-            <span id="pageCount" class="page-count" aria-live="polite">/ …</span>
             <button id="nextPage" class="control-button icon-button" type="button" aria-label="Следующая страница" title="Следующая страница" disabled>›</button>
           </div>
 
@@ -26,6 +25,7 @@
             <button id="zoomIn" class="control-button icon-button" type="button" aria-label="Увеличить масштаб" title="Увеличить масштаб" disabled>+</button>
             <button id="fitWidth" class="control-button fit-button" type="button" aria-pressed="true" disabled>По ширине</button>
           </div>
+          <a class="control-button fit-button download-link" href="./in-progress.pdf?v=2" download>Скачать PDF</a>
         </div>
 
         <div id="status" class="status" role="status" aria-live="polite">Загрузка документа…</div>

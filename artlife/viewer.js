@@ -8,7 +8,6 @@ const stage = document.querySelector("#viewerStage");
 const status = document.querySelector("#status");
 const progress = document.querySelector("#loadProgress");
 const pageInput = document.querySelector("#pageNumber");
-const pageCount = document.querySelector("#pageCount");
 const zoomLevel = document.querySelector("#zoomLevel");
 const previousButton = document.querySelector("#previousPage");
 const nextButton = document.querySelector("#nextPage");
@@ -44,9 +43,8 @@ function updateControls() {
   fitWidthButton.setAttribute("aria-pressed", String(fitToWidth));
   pageInput.max = ready ? String(pdfDocument.numPages) : "1";
   pageInput.value = String(pageNumber);
-  pageCount.textContent = ready ? `/ ${pdfDocument.numPages}` : "/ …";
   zoomLevel.textContent = `${Math.round((fitToWidth ? currentFitScale : scale) * 100)}%`;
-  canvas.setAttribute("aria-label", ready ? `Страница ${pageNumber} из ${pdfDocument.numPages}` : "Страница PDF");
+  canvas.setAttribute("aria-label", ready ? `Страница ${pageNumber}` : "Страница PDF");
 }
 
 function fitScale(viewport) {
@@ -96,7 +94,7 @@ async function renderPage() {
     await renderTask.promise;
     if (activeRender === renderTask) activeRender = undefined;
     if (thisRender === renderVersion) {
-      setStatus(`Страница ${pageNumber} из ${pdfDocument.numPages}`);
+      setStatus(`Страница ${pageNumber}`);
       updateControls();
     }
   } catch (error) {

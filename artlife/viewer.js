@@ -11,16 +11,10 @@ const pageInput = document.querySelector("#pageNumber");
 const zoomLevel = document.querySelector("#zoomLevel");
 const previousButton = document.querySelector("#previousPage");
 const nextButton = document.querySelector("#nextPage");
-const zoomOutButton = document.querySelector("#zoomOut");
-const zoomInButton = document.querySelector("#zoomIn");
 
-const minScale = 0.1;
-const maxScale = 3;
-const scaleStep = 0.2;
-const defaultScale = 0.8;
+const scale = 0.8;
 let pdfDocument;
 let pageNumber = 1;
-let scale = defaultScale;
 let activeRender;
 let renderVersion = 0;
 let resizeFrame;
@@ -36,8 +30,6 @@ function updateControls() {
   pageInput.disabled = !ready;
   previousButton.disabled = !ready || pageNumber <= 1;
   nextButton.disabled = !ready || pageNumber >= pdfDocument.numPages;
-  zoomOutButton.disabled = !ready || scale <= minScale;
-  zoomInButton.disabled = !ready || scale >= maxScale;
   pageInput.max = ready ? String(pdfDocument.numPages) : "1";
   pageInput.value = String(pageNumber);
   zoomLevel.textContent = `${Math.round(scale * 100)}%`;
@@ -101,13 +93,6 @@ function goToPage(value) {
   renderPage();
 }
 
-function changeScale(direction) {
-  if (!pdfDocument) return;
-  scale = Math.max(minScale, Math.min(maxScale, Math.round((scale + direction * scaleStep) * 100) / 100));
-  updateControls();
-  renderPage();
-}
-
 previousButton.addEventListener("click", () => goToPage(pageNumber - 1));
 nextButton.addEventListener("click", () => goToPage(pageNumber + 1));
 pageInput.addEventListener("change", () => goToPage(pageInput.value));
@@ -117,15 +102,11 @@ pageInput.addEventListener("keydown", event => {
     pageInput.blur();
   }
 });
-zoomOutButton.addEventListener("click", () => changeScale(-1));
-zoomInButton.addEventListener("click", () => changeScale(1));
 
 window.addEventListener("keydown", event => {
   if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "")) return;
   if (event.key === "ArrowLeft") goToPage(pageNumber - 1);
   if (event.key === "ArrowRight") goToPage(pageNumber + 1);
-  if (event.key === "+" || event.key === "=") changeScale(1);
-  if (event.key === "-") changeScale(-1);
 });
 
 const resizeObserver = new ResizeObserver(() => {

@@ -20,7 +20,7 @@ const pdfUrl = englishPdf ? "./in-progress-en.pdf?v=1" : "./in-progress.pdf?v=2"
 const minScale = 0.1;
 const maxScale = 3;
 const scaleStep = 0.2;
-const defaultScale = window.matchMedia("(max-width: 700px)").matches ? 0.2 : 0.8;
+const defaultScale = window.matchMedia("(max-width: 700px)").matches ? 0.2 : 0.6;
 let pdfDocument;
 let pageNumber = 1;
 let scale = defaultScale;

@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1a20">
+  <meta name="description" content="Datum provides LiDAR-based technical assessments of properties on the secondary market in Cyprus and the Netherlands.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <title>Datum — Know the work before you buy</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #10252b;
+      --ink-soft: #4b5e62;
+      --night: #0a1a20;
+      --night-2: #11272e;
+      --paper: #f3f6f3;
+      --white: #fff;
+      --line: #d8e1dc;
+      --lime: #c8f66a;
+      --lime-dark: #9bd33a;
+      --blue: #a4ced3;
+      --orange: #ff9d68;
+      --radius: 1.25rem;
+      --page: min(1220px, calc(100% - 3rem));
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6.5rem; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-size: 1rem; line-height: 1.55; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid #2d7f84; outline-offset: 4px; }
+    .wrap { width: var(--page); margin-inline: auto; }
+    .eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: #617478; font-size: .76rem; font-weight: 750; letter-spacing: .15em; line-height: 1.3; text-transform: uppercase; }
+    .eyebrow::before { width: 1.6rem; height: 2px; background: var(--lime-dark); content: ""; }
+    .button { display: inline-flex; min-height: 3.15rem; align-items: center; justify-content: center; padding: .82rem 1.15rem; border: 1px solid transparent; border-radius: 999px; background: var(--lime); color: var(--ink); cursor: pointer; font-size: .92rem; font-weight: 760; text-decoration: none; transition: background .2s ease, transform .2s ease; }
+    .button:hover { background: #d8ff8b; transform: translateY(-1px); }
+    .button--outline { border-color: rgba(255,255,255,.3); background: transparent; color: #f6faf5; }
+    .button--outline:hover { background: rgba(255,255,255,.08); }
+    .button--small { min-height: 2.7rem; padding: .62rem 1rem; }
+    .section { padding-block: clamp(4.5rem, 8vw, 7.5rem); }
+    .section-heading { max-width: 46rem; margin-bottom: 2.5rem; }
+    .section-heading h2 { max-width: 15ch; margin: 0; font-size: clamp(2.3rem, 5.2vw, 4.15rem); font-weight: 620; letter-spacing: -.065em; line-height: .98; }
+    .section-heading p { max-width: 42rem; margin: 1.2rem 0 0; color: var(--ink-soft); font-size: 1.08rem; }
+
+    .site-header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid rgba(16,37,43,.09); background: rgba(243,246,243,.94); backdrop-filter: blur(16px); }
+    .header-inner { display: flex; min-height: 5.3rem; align-items: center; justify-content: space-between; gap: 2rem; }
+    .brand { display: inline-flex; align-items: center; gap: .7rem; color: var(--ink); text-decoration: none; }
+    .brand-mark { display: grid; width: 2.3rem; height: 2.3rem; place-items: center; border-radius: .6rem; background: var(--ink); color: var(--lime); font-size: .85rem; font-weight: 800; letter-spacing: -.05em; }
+    .brand-copy { display: grid; gap: .06rem; }
+    .brand-name { font-size: .79rem; font-weight: 820; letter-spacing: .08em; line-height: 1.2; }
+    .brand-sub { color: #64777a; font-size: .67rem; font-weight: 650; letter-spacing: .09em; text-transform: uppercase; }
+    .main-nav { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2rem); }
+    .main-nav a:not(.button) { color: #44585c; font-size: .9rem; font-weight: 620; text-decoration: none; }
+    .main-nav a:not(.button):hover { color: #08727a; }
+    .menu-toggle { display: none; width: 2.8rem; height: 2.8rem; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; }
+
+    .hero { position: relative; overflow: hidden; background: var(--night); color: #f3f6f3; }
+    .hero::before { position: absolute; inset: 0; background: radial-gradient(ellipse at 77% 27%, rgba(35,93,96,.35), transparent 38%), linear-gradient(112deg, transparent 58%, rgba(200,246,106,.045)); content: ""; pointer-events: none; }
+    .hero-inner { position: relative; display: grid; min-height: 42rem; grid-template-columns: minmax(0, 1.03fr) minmax(23rem, .97fr); align-items: center; gap: 2rem; padding-block: clamp(4rem, 7vw, 6.5rem); }
+    .hero-copy { position: relative; z-index: 1; padding-block: 1rem; }
+    .hero .eyebrow { color: #b8cbca; }
+    .hero h1 { max-width: 11ch; margin: 0; font-size: clamp(3.55rem, 7vw, 6.5rem); font-weight: 570; letter-spacing: -.082em; line-height: .91; }
+    .hero h1 span { color: var(--lime); }
+    .hero-lede { max-width: 37rem; margin: 1.6rem 0 0; color: #c2cfcb; font-size: clamp(1.05rem, 1.5vw, 1.22rem); line-height: 1.6; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+    .hero-note { display: flex; align-items: center; gap: .55rem; margin-top: 1.55rem; color: #a6b8b6; font-size: .86rem; }
+    .hero-note svg { flex: none; color: var(--lime); }
+    .scan-visual { position: relative; min-height: 28rem; border: 1px solid rgba(183,220,217,.17); border-radius: 1.2rem; background: linear-gradient(145deg, rgba(36,69,73,.65), rgba(8,24,30,.24) 60%), repeating-linear-gradient(0deg, transparent 0 39px, rgba(174,211,207,.055) 40px), repeating-linear-gradient(90deg, transparent 0 39px, rgba(174,211,207,.055) 40px); box-shadow: 0 28px 80px rgba(0,0,0,.2); }
+    .scan-visual::after { position: absolute; right: 1rem; bottom: 1rem; left: 1rem; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,246,106,.5), transparent); content: ""; }
+    .scan-svg { position: absolute; inset: 2.2rem 1.25rem 2.4rem; width: calc(100% - 2.5rem); height: calc(100% - 4.6rem); overflow: visible; }
+    .scan-caption { position: absolute; right: 1.2rem; bottom: 1.2rem; left: 1.2rem; display: flex; justify-content: space-between; gap: .7rem; color: #a9c1bf; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+    .scan-label { position: absolute; top: 1rem; left: 1rem; display: flex; align-items: center; gap: .5rem; padding: .52rem .72rem; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(8,24,30,.62); color: #e3ebe7; font-size: .73rem; letter-spacing: .04em; }
+    .scan-label i { width: .45rem; height: .45rem; border-radius: 50%; background: var(--lime); box-shadow: 0 0 1rem var(--lime); }
+    .hero-baseline { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(216,225,220,.18); }
+    .hero-baseline div { padding: 1.1rem .8rem 1.1rem 0; color: #b7c6c2; font-size: .84rem; }
+    .hero-baseline strong { display: block; margin-bottom: .16rem; color: #f3f6f3; font-size: .94rem; font-weight: 650; }
+    .hero-baseline span { display: block; }
+    .location-strip { border-bottom: 1px solid var(--line); background: #e9efeb; }
+    .location-inner { display: flex; min-height: 5rem; align-items: center; justify-content: space-between; gap: 2rem; }
+    .location-inner p { margin: 0; color: #43585b; font-size: .9rem; font-weight: 620; }
+    .location-list { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .location-list span { padding: .48rem .78rem; border: 1px solid #c7d5cf; border-radius: 999px; color: #30494e; font-size: .82rem; font-weight: 680; }
+
+    .evidence-layout { display: grid; grid-template-columns: minmax(0, .87fr) minmax(24rem, 1.13fr); align-items: center; gap: clamp(2.5rem, 8vw, 7rem); }
+    .evidence-copy h2 { max-width: 12ch; margin: 0; font-size: clamp(2.5rem, 5vw, 4.3rem); font-weight: 620; letter-spacing: -.07em; line-height: .98; }
+    .evidence-copy > p { max-width: 36rem; margin: 1.3rem 0 0; color: var(--ink-soft); font-size: 1.08rem; }
+    .evidence-list { display: grid; gap: .85rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+    .evidence-list li { display: grid; grid-template-columns: 2rem 1fr; gap: .8rem; align-items: start; color: #344b50; }
+    .evidence-list b { display: block; margin-bottom: .14rem; color: var(--ink); }
+    .evidence-icon { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; border-radius: .5rem; background: #e1ecdc; color: #2f5b44; font-size: .82rem; font-weight: 800; }
+    .evidence-panel { position: relative; padding: clamp(1.3rem, 3vw, 2rem); border: 1px solid #d6e0da; border-radius: var(--radius); background: #fff; box-shadow: 0 18px 60px rgba(27,53,54,.06); }
+    .panel-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e5ebe7; }
+    .panel-title { color: #52666a; font-size: .8rem; font-weight: 720; letter-spacing: .12em; text-transform: uppercase; }
+    .panel-chip { padding: .42rem .62rem; border-radius: 999px; background: #eef5e6; color: #4d702b; font-size: .74rem; font-weight: 700; }
+    .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; padding-block: 1rem; }
+    .model-card { min-height: 9.5rem; padding: 1rem; border-radius: .9rem; background: #f2f6f3; }
+    .model-card--dark { background: #0f252b; color: #eff5ef; }
+    .model-card small { display: block; margin-bottom: 1.1rem; color: #708384; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .model-card--dark small { color: #a9c1bf; }
+    .model-card strong { display: block; font-size: 1.05rem; font-weight: 690; letter-spacing: -.02em; }
+    .model-card p { margin: .42rem 0 0; color: #596d70; font-size: .86rem; line-height: 1.45; }
+    .model-card--dark p { color: #bbc9c5; }
+    .panel-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .85rem .95rem; border: 1px solid #e0e8e2; border-radius: .75rem; color: #30484d; font-size: .85rem; }
+    .panel-link strong { color: #1e474d; }
+    .panel-link span { color: #607477; }
+
+    .method-section { background: #e9efeb; }
+    .method-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .85rem; }
+    .method-card { position: relative; min-height: 16rem; padding: 1.25rem; border: 1px solid #d3ded7; border-radius: 1rem; background: rgba(255,255,255,.76); }
+    .method-card::after { position: absolute; top: 2.2rem; right: -1rem; width: 1.1rem; height: 1px; background: #a9bbb4; content: ""; }
+    .method-card:last-child::after { display: none; }
+    .step-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .step-label span:first-child { color: #718487; font-size: .75rem; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
+    .step-label span:last-child { width: 1.9rem; height: 1.9rem; border: 1px solid #c9d6ce; border-radius: 50%; background: #f5f8f4; }
+    .method-card h3 { margin: 0; font-size: 1.28rem; font-weight: 680; letter-spacing: -.035em; line-height: 1.12; }
+    .method-card p { margin: .7rem 0 0; color: #576b6e; font-size: .92rem; }
+    .method-note { display: flex; align-items: flex-start; gap: .8rem; max-width: 57rem; margin-top: 1.5rem; padding: 1rem 1.15rem; border-left: 3px solid var(--lime-dark); background: rgba(255,255,255,.6); color: #4a6063; font-size: .92rem; }
+    .method-note strong { color: var(--ink); }
+
+    .audience-section { background: var(--night); color: #f3f6f3; }
+    .audience-section .eyebrow { color: #b8cbca; }
+    .audience-section .section-heading h2 { max-width: 14ch; }
+    .audience-section .section-heading p { color: #b9c9c5; }
+    .audience-content { display: grid; grid-template-columns: minmax(15rem, .72fr) minmax(0, 1.28fr); gap: 1.1rem; }
+    .audience-tabs { display: grid; align-content: start; gap: .7rem; }
+    .audience-tab { display: grid; gap: .3rem; padding: 1.1rem 1.15rem; border: 1px solid rgba(227,239,232,.16); border-radius: .85rem; background: transparent; color: #c4d0cb; cursor: pointer; text-align: left; transition: border .2s ease, background .2s ease, color .2s ease; }
+    .audience-tab:hover { border-color: rgba(200,246,106,.45); }
+    .audience-tab[aria-selected="true"] { border-color: rgba(200,246,106,.65); background: rgba(200,246,106,.1); color: white; }
+    .audience-tab strong { font-size: 1.02rem; font-weight: 700; }
+    .audience-tab span { color: #a6b9b5; font-size: .86rem; }
+    .audience-panel { min-height: 20rem; padding: clamp(1.3rem, 3vw, 2rem); border: 1px solid rgba(227,239,232,.16); border-radius: 1rem; background: linear-gradient(135deg, rgba(31,65,70,.62), rgba(16,39,46,.58)); }
+    .audience-panel[hidden] { display: none; }
+    .audience-panel h3 { max-width: 19ch; margin: 0; font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 590; letter-spacing: -.055em; line-height: 1.02; }
+    .audience-panel > p { max-width: 42rem; margin: .8rem 0 1.4rem; color: #b9c9c5; }
+    .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    .focus-item { padding: .85rem .95rem; border-radius: .7rem; background: rgba(4,17,22,.33); }
+    .focus-item small { display: block; margin-bottom: .36rem; color: var(--lime); font-size: .69rem; font-weight: 760; letter-spacing: .11em; text-transform: uppercase; }
+    .focus-item span { color: #e1e9e5; font-size: .9rem; }
+    .one-method { display: flex; align-items: center; justify-content: space-between; gap: 1.3rem; margin-top: 1rem; padding: 1rem 1.15rem; border: 1px solid rgba(227,239,232,.13); border-radius: .75rem; color: #c4d0cb; font-size: .88rem; }
+    .one-method strong { flex: none; color: var(--lime); font-size: .77rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    .report-layout { display: grid; grid-template-columns: minmax(0, .74fr) minmax(0, 1.26fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
+    .report-layout .section-heading { margin: 0; }
+    .report-layout .section-heading h2 { max-width: 10ch; }
+    .report-list { display: grid; gap: .55rem; }
+    .report-row { display: grid; grid-template-columns: 2.3rem minmax(8rem, .65fr) 1fr; gap: .8rem; align-items: center; min-height: 4.4rem; padding: .65rem .85rem; border-bottom: 1px solid var(--line); }
+    .report-row:first-child { border-top: 1px solid var(--line); }
+    .report-row .row-icon { display: grid; width: 2rem; height: 2rem; place-items: center; border-radius: .62rem; background: #e2ecdc; color: #375946; font-size: .82rem; font-weight: 800; }
+    .report-row strong { font-size: .94rem; font-weight: 710; }
+    .report-row span:last-child { color: #5d7072; font-size: .88rem; }
+
+    .example-section { padding-top: 0; }
+    .example-board { overflow: hidden; border-radius: var(--radius); background: #dce9e3; }
+    .example-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; padding: clamp(1.3rem, 4vw, 2.25rem); }
+    .example-top h2 { max-width: 12ch; margin: 0; font-size: clamp(2.2rem, 4.3vw, 3.6rem); font-weight: 610; letter-spacing: -.07em; line-height: .98; }
+    .demo-stamp { flex: none; padding: .55rem .75rem; border: 1px solid #aabdb2; border-radius: 999px; color: #415e58; font-size: .7rem; font-weight: 780; letter-spacing: .12em; text-transform: uppercase; }
+    .trace-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #c4d6cd; }
+    .trace-step { min-height: 14rem; padding: 1.3rem; background: #edf3ef; }
+    .trace-step small { display: block; margin-bottom: 1.4rem; color: #627679; font-size: .69rem; font-weight: 780; letter-spacing: .12em; text-transform: uppercase; }
+    .trace-step h3 { margin: 0; font-size: 1.14rem; font-weight: 690; letter-spacing: -.025em; line-height: 1.15; }
+    .trace-step p { margin: .58rem 0 0; color: #5d7072; font-size: .9rem; }
+    .trace-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.3rem; background: #173137; color: #cfdbd4; font-size: .82rem; }
+    .trace-footer strong { color: var(--lime); font-weight: 690; }
+
+    .limits-section { padding-top: 1rem; }
+    .limits-box { display: grid; grid-template-columns: minmax(14rem, .65fr) minmax(0, 1.35fr); gap: 2rem; padding: clamp(1.4rem, 4vw, 2.5rem); border: 1px solid #cedad3; border-radius: var(--radius); background: #fff; }
+    .limits-box h2 { max-width: 10ch; margin: 0; font-size: clamp(2rem, 4vw, 3rem); font-weight: 610; letter-spacing: -.07em; line-height: .98; }
+    .limits-box > div > p { max-width: 34rem; margin: .85rem 0 0; color: var(--ink-soft); }
+    .limit-list { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin: 0; padding: 0; list-style: none; }
+    .limit-list li { padding: .85rem .9rem; border-radius: .7rem; background: #f0f5f1; color: #43595c; font-size: .88rem; }
+    .limit-list strong { display: block; margin-bottom: .2rem; color: var(--ink); font-size: .9rem; }
+
+    .contact-section { padding-top: clamp(2.5rem, 5vw, 4.5rem); }
+    .contact-shell { display: grid; grid-template-columns: minmax(0, .82fr) minmax(20rem, 1.18fr); gap: clamp(2rem, 6vw, 5.5rem); padding: clamp(1.5rem, 5vw, 3.25rem); border-radius: 1.3rem; background: var(--night); color: #f4f7f2; }
+    .contact-copy .eyebrow { color: #b8cbca; }
+    .contact-copy h2 { max-width: 11ch; margin: 0; font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 590; letter-spacing: -.07em; line-height: .95; }
+    .contact-copy p { max-width: 27rem; margin: 1rem 0 0; color: #b7c7c3; }
+    .contact-meta { display: grid; gap: .5rem; margin-top: 2rem; color: #c6d4ce; font-size: .88rem; }
+    .contact-meta span { display: flex; gap: .55rem; align-items: center; }
+    .contact-meta i { width: .4rem; height: .4rem; border-radius: 50%; background: var(--lime); }
+    .brief-form { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; align-content: start; }
+    .field { display: grid; gap: .38rem; }
+    .field--full { grid-column: 1 / -1; }
+    .field label { color: #dce6df; font-size: .82rem; font-weight: 650; }
+    .field input, .field select, .field textarea { width: 100%; min-height: 3rem; padding: .72rem .8rem; border: 1px solid rgba(219,235,227,.22); border-radius: .65rem; background: rgba(255,255,255,.07); color: #f2f6f2; }
+    .field select option { color: var(--ink); }
+    .field textarea { min-height: 6rem; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: #91a5a3; }
+    .form-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: .2rem; }
+    .form-note { max-width: 24rem; color: #aebfba; font-size: .78rem; }
+    .brief-output { grid-column: 1 / -1; display: none; padding: 1rem; border: 1px solid rgba(200,246,106,.37); border-radius: .75rem; background: rgba(200,246,106,.08); }
+    .brief-output.is-visible { display: block; }
+    .brief-output h3 { margin: 0 0 .45rem; color: var(--lime); font-size: .94rem; }
+    .brief-output pre { overflow-wrap: anywhere; white-space: pre-wrap; margin: 0; color: #e3ece6; font: inherit; font-size: .83rem; }
+    .brief-output button { margin-top: .8rem; padding: .52rem .75rem; border: 1px solid rgba(219,235,227,.28); border-radius: 999px; background: transparent; color: #f2f6f2; cursor: pointer; font-size: .8rem; font-weight: 680; }
+
+    .site-footer { padding-block: 2rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-top: 1.3rem; border-top: 1px solid var(--line); color: #607275; font-size: .8rem; }
+    .footer-inner strong { color: #344c51; font-weight: 740; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1.1rem; }
+    .footer-links a { color: #52696d; text-decoration: none; }
+    .footer-links a:hover { color: #08727a; }
+
+    @media (max-width: 900px) {
+      :root { --page: min(100% - 2rem, 720px); }
+      .hero-inner { min-height: auto; grid-template-columns: 1fr; padding-top: 4.2rem; }
+      .hero-copy { max-width: 42rem; }
+      .hero h1 { max-width: 12ch; font-size: clamp(3.6rem, 12vw, 6rem); }
+      .scan-visual { min-height: 26rem; }
+      .evidence-layout, .report-layout { grid-template-columns: 1fr; }
+      .evidence-copy { max-width: 48rem; }
+      .method-grid { grid-template-columns: repeat(2, 1fr); }
+      .method-card:nth-child(2)::after { display: none; }
+      .audience-content { grid-template-columns: 1fr; }
+      .audience-tabs { grid-template-columns: 1fr 1fr; }
+      .audience-tab { min-height: 6rem; }
+      .report-layout .section-heading { max-width: 44rem; }
+      .contact-shell { grid-template-columns: 1fr; }
+      .contact-copy { max-width: 42rem; }
+    }
+    @media (max-width: 620px) {
+      :root { --page: calc(100% - 1.4rem); }
+      .header-inner { min-height: 4.6rem; gap: .8rem; }
+      .brand-mark { width: 2.05rem; height: 2.05rem; }
+      .brand-name { font-size: .7rem; }
+      .brand-sub { font-size: .6rem; }
+      .menu-toggle { display: inline-grid; flex: none; place-items: center; margin-left: auto; }
+      .main-nav { position: absolute; top: calc(100% + .35rem); right: .7rem; left: .7rem; display: none; align-items: stretch; padding: .8rem; border: 1px solid var(--line); border-radius: .9rem; background: var(--paper); box-shadow: 0 16px 35px rgba(16,37,43,.12); }
+      .main-nav.is-open { display: grid; }
+      .main-nav a:not(.button) { padding: .65rem .55rem; }
+      .main-nav .button { margin-top: .15rem; }
+      .hero-inner { gap: 1.4rem; padding-block: 3.2rem 2rem; }
+      .hero h1 { font-size: clamp(3.2rem, 15vw, 4.8rem); }
+      .hero-lede { font-size: 1rem; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; }
+      .hero-actions .button { width: 100%; }
+      .scan-visual { min-height: 20rem; }
+      .scan-svg { inset: 2.1rem .8rem 2.4rem; width: calc(100% - 1.6rem); height: calc(100% - 4.5rem); }
+      .scan-caption { font-size: .62rem; }
+      .hero-baseline { grid-template-columns: 1fr; padding-block: .35rem; }
+      .hero-baseline div { display: grid; grid-template-columns: 7rem 1fr; gap: .7rem; padding: .55rem 0; }
+      .hero-baseline strong { margin: 0; }
+      .location-inner { min-height: auto; align-items: flex-start; flex-direction: column; gap: .8rem; padding-block: 1rem; }
+      .location-list span { font-size: .76rem; }
+      .section { padding-block: 4.3rem; }
+      .section-heading { margin-bottom: 1.8rem; }
+      .section-heading h2, .evidence-copy h2 { font-size: clamp(2.4rem, 11vw, 3.35rem); }
+      .evidence-layout { gap: 2rem; }
+      .model-grid { gap: .55rem; }
+      .model-card { min-height: 9rem; padding: .8rem; }
+      .model-card strong { font-size: .96rem; }
+      .model-card p { font-size: .8rem; }
+      .panel-link { align-items: flex-start; flex-direction: column; gap: .2rem; }
+      .method-grid { grid-template-columns: 1fr; }
+      .method-card { min-height: auto; padding: 1rem; }
+      .method-card::after { display: none; }
+      .step-label { margin-bottom: 1rem; }
+      .audience-tabs { grid-template-columns: 1fr; }
+      .audience-tab { min-height: auto; }
+      .audience-panel { min-height: 0; }
+      .focus-grid { grid-template-columns: 1fr; }
+      .one-method { align-items: flex-start; flex-direction: column; gap: .45rem; }
+      .report-row { grid-template-columns: 2.1rem 1fr; gap: .55rem .75rem; padding-block: .8rem; }
+      .report-row span:last-child { grid-column: 2; }
+      .example-top { align-items: flex-start; flex-direction: column; gap: 1rem; }
+      .trace-grid { grid-template-columns: 1fr 1fr; }
+      .trace-step { min-height: 12rem; padding: 1rem; }
+      .trace-step small { margin-bottom: 1rem; }
+      .trace-footer { align-items: flex-start; flex-direction: column; }
+      .limits-box { grid-template-columns: 1fr; gap: 1.2rem; }
+      .limit-list { grid-template-columns: 1fr; }
+      .contact-shell { gap: 2rem; padding: 1.2rem; }
+      .brief-form { grid-template-columns: 1fr; }
+      .field--full, .form-actions, .brief-output { grid-column: 1; }
+      .form-actions { align-items: flex-start; flex-direction: column; }
+      .footer-inner { align-items: flex-start; flex-direction: column; gap: .8rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="Datum home">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span class="brand-copy"><span class="brand-name">DATUM</span><span class="brand-sub">Property assessment · LiDAR</span></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation"><svg width="19" height="19" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <a href="#method">Method</a>
+        <a href="#deliverable">The report</a>
+        <a href="#limits">Scope</a>
+        <a class="button button--small" href="#enquiry">Describe a property</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Secondary-market properties · Cyprus · Netherlands</p>
+          <h1 id="hero-title">Know the work <span>before you buy.</span></h1>
+          <p class="hero-lede">We inspect and scan existing properties on site, then use the LiDAR model and our findings to set out the work your plans require, the quantities involved and the estimated cost.</p>
+          <div class="hero-actions">
+            <a class="button" href="#method">Explore the method</a>
+            <a class="button button--outline" href="#enquiry">Prepare a property brief</a>
+          </div>
+          <p class="hero-note"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 16 5v4.4c0 3.7-2.6 6.4-6 8.1-3.4-1.7-6-4.4-6-8.1V5l6-2.5Z" stroke="currentColor" stroke-width="1.4"/><path d="m7.2 9.9 1.8 1.8 3.9-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Every assessment includes LiDAR capture and expert inspection.</p>
+        </div>
+        <div class="scan-visual" role="img" aria-label="Illustrative point-cloud view of a measured interior space">
+          <span class="scan-label"><i></i> Spatial model · illustrative view</span>
+          <svg class="scan-svg" viewBox="0 0 620 450" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="edge" x1="94" y1="325" x2="493" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#A4CED3"/><stop offset=".54" stop-color="#C8F66A"/><stop offset="1" stop-color="#A4CED3"/></linearGradient>
+              <radialGradient id="cloud"><stop stop-color="#C8F66A"/><stop offset="1" stop-color="#C8F66A" stop-opacity="0"/></radialGradient>
+            </defs>
+            <path d="M75 342 274 224 520 285 315 411 75 342Z" stroke="#A4CED3" stroke-opacity=".42" stroke-width="1.2"/>
+            <path d="M75 342V151l202-117v190M277 224V34l243 67v184M75 151l243 68 202-118" stroke="url(#edge)" stroke-width="1.7"/>
+            <path d="M124 324V168l154-89 191 53v151l-154 96-191-55Z" stroke="#B5D6D2" stroke-opacity=".34" stroke-dasharray="4 7"/>
+            <path d="M171 337V187l106-62 145 42v135M277 125v99m145-57v135M171 187l145 43 106-58" stroke="#C8F66A" stroke-opacity=".72" stroke-width="1.25"/>
+            <path d="M180 184v-38l97-55 137 38M278 224l-1 111m144-193 98 27v105" stroke="#A4CED3" stroke-opacity=".55" stroke-width="1"/>
+            <path d="M75 342 315 411l205-126M124 168l193 52 198-88M171 187l145 43 106-58" stroke="#A4CED3" stroke-opacity=".22" stroke-dasharray="2 8"/>
+            <g fill="#C8F66A">
+              <circle cx="76" cy="342" r="3"/><circle cx="105" cy="326" r="2.2"/><circle cx="136" cy="350" r="2"/><circle cx="161" cy="364" r="2.6"/><circle cx="195" cy="376" r="2"/><circle cx="230" cy="386" r="2"/><circle cx="267" cy="397" r="2.5"/><circle cx="315" cy="411" r="3.3"/><circle cx="353" cy="388" r="2.1"/><circle cx="392" cy="365" r="2.3"/><circle cx="433" cy="340" r="2"/><circle cx="474" cy="313" r="2.6"/><circle cx="520" cy="285" r="3"/>
+              <circle cx="75" cy="151" r="3"/><circle cx="103" cy="136" r="2"/><circle cx="139" cy="116" r="2.5"/><circle cx="179" cy="93" r="2"/><circle cx="221" cy="68" r="2.3"/><circle cx="277" cy="34" r="3"/><circle cx="315" cy="44" r="2"/><circle cx="360" cy="56" r="2.4"/><circle cx="409" cy="69" r="2"/><circle cx="464" cy="85" r="2.5"/><circle cx="520" cy="101" r="3"/>
+              <circle cx="76" cy="210" r="2.1"/><circle cx="76" cy="266" r="2.4"/><circle cx="277" cy="86" r="2.2"/><circle cx="277" cy="151" r="2"/><circle cx="520" cy="158" r="2"/><circle cx="520" cy="223" r="2.2"/><circle cx="126" cy="210" r="2"/><circle cx="126" cy="273" r="2.3"/><circle cx="174" cy="241" r="2.4"/><circle cx="223" cy="253" r="2"/><circle cx="271" cy="267" r="2.7"/><circle cx="319" cy="279" r="2"/><circle cx="369" cy="294" r="2.2"/><circle cx="420" cy="307" r="2.4"/>
+            </g>
+            <g fill="#A4CED3" fill-opacity=".76">
+              <circle cx="98" cy="170" r="1.6"/><circle cx="116" cy="154" r="1.8"/><circle cx="150" cy="133" r="1.5"/><circle cx="193" cy="108" r="1.7"/><circle cx="238" cy="82" r="1.5"/><circle cx="303" cy="42" r="1.7"/><circle cx="337" cy="50" r="1.5"/><circle cx="385" cy="63" r="1.6"/><circle cx="441" cy="78" r="1.5"/><circle cx="492" cy="94" r="1.7"/><circle cx="96" cy="230" r="1.7"/><circle cx="96" cy="294" r="1.5"/><circle cx="278" cy="181" r="1.5"/><circle cx="298" cy="117" r="1.7"/><circle cx="498" cy="176" r="1.5"/><circle cx="498" cy="241" r="1.6"/><circle cx="157" cy="221" r="1.5"/><circle cx="204" cy="237" r="1.7"/><circle cx="250" cy="247" r="1.5"/><circle cx="346" cy="288" r="1.6"/><circle cx="393" cy="301" r="1.7"/><circle cx="447" cy="321" r="1.5"/>
+            </g>
+            <circle cx="316" cy="229" r="27" fill="url(#cloud)" fill-opacity=".14"/>
+            <circle cx="316" cy="229" r="4" fill="#C8F66A"/><circle cx="316" cy="229" r="10" stroke="#C8F66A" stroke-opacity=".58"/>
+            <path d="M316 211v-34m-18 52h-34m70 0h35m-53 18v35" stroke="#C8F66A" stroke-opacity=".62" stroke-dasharray="3 4"/>
+            <path d="M76 342h-25m25 0v-25m444-32h25m-25 0v25" stroke="#C8F66A" stroke-width="1.5"/>
+          </svg>
+          <div class="scan-caption"><span>Captured geometry</span><span>Model view · illustrative</span></div>
+        </div>
+        <div class="hero-baseline" aria-label="Assessment components">
+          <div><strong>01 · Capture</strong><span>LiDAR point cloud</span></div>
+          <div><strong>02 · Interpret</strong><span>Expert site review</span></div>
+          <div><strong>03 · Decide</strong><span>Physical work scenarios</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="location-strip" aria-label="Service markets">
+      <div class="wrap location-inner"><p>Technical property assessment in</p><div class="location-list"><span>Cyprus</span><span>The Netherlands</span><span>European methods, local context</span></div></div>
+    </div>
+
+    <section class="section" id="evidence" aria-labelledby="evidence-title">
+      <div class="wrap evidence-layout">
+        <div class="evidence-copy">
+          <p class="eyebrow">A measured basis</p>
+          <h2 id="evidence-title">We measure the building to quantify the work.</h2>
+          <p>Every site visit combines LiDAR capture and expert inspection. We build a measured model from the scan, use it to study accessible areas and calculate quantities, and use the inspection findings to explain which works are needed for your plans.</p>
+          <ul class="evidence-list">
+            <li><span class="evidence-icon" aria-hidden="true">01</span><span><b>Geometry from the capture</b>Dimensions and visible surfaces are tied to the measured model, with coverage gaps identified.</span></li>
+            <li><span class="evidence-icon" aria-hidden="true">02</span><span><b>Condition from expert review</b>We record what we observed and explain how it affects the work you plan.</span></li>
+            <li><span class="evidence-icon" aria-hidden="true">03</span><span><b>Scope and cost</b>We link the quantities to work items and show the rate sources and assumptions behind the estimate.</span></li>
+          </ul>
+        </div>
+        <div class="evidence-panel" aria-label="How scan evidence supports the report">
+          <div class="panel-top"><span class="panel-title">From capture to work scope</span><span class="panel-chip">Evidence linked</span></div>
+          <div class="model-grid">
+            <div class="model-card model-card--dark"><small>01 · Scan</small><strong>Point cloud</strong><p>Spatial data from the accessible areas of the property.</p></div>
+            <div class="model-card"><small>02 · Model</small><strong>Measured geometry</strong><p>Rooms, surfaces and dimensions shown with their coverage.</p></div>
+            <div class="model-card"><small>03 · Review</small><strong>Observed condition</strong><p>Expert notes tied to locations and visible evidence.</p></div>
+            <div class="model-card"><small>04 · Scenario</small><strong>Quantified work</strong><p>Physical scope and cost range, with assumptions stated.</p></div>
+          </div>
+          <div class="panel-link"><strong>Model element → quantity → work item → cost range</strong><span>See how the estimate is built</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method" aria-labelledby="method-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">One clear sequence</p>
+          <h2 id="method-title">From first visit to a decision document.</h2>
+          <p>The assessment combines on-site capture with technical interpretation. Its conclusion stays connected to what was measured, observed, assumed and left open.</p>
+        </div>
+        <div class="method-grid">
+          <article class="method-card"><div class="step-label"><span>Scope</span><span aria-hidden="true"></span></div><h3>Set the question</h3><p>Agree the property areas, access, target condition and physical scenarios the client wants to compare.</p></article>
+          <article class="method-card"><div class="step-label"><span>Capture</span><span aria-hidden="true"></span></div><h3>Scan and inspect</h3><p>Collect LiDAR data and record accessible building conditions during the site visit.</p></article>
+          <article class="method-card"><div class="step-label"><span>Analyse</span><span aria-hidden="true"></span></div><h3>Measure the work</h3><p>Build the measurement model, connect observations to locations and calculate quantities for the chosen scenarios.</p></article>
+          <article class="method-card"><div class="step-label"><span>Report</span><span aria-hidden="true"></span></div><h3>Explain the conclusion</h3><p>Get the technical findings, scope of work, quantities, cost ranges and next checks in one report.</p></article>
+        </div>
+        <div class="method-note"><strong>Every project starts with a defined scope.</strong><span>Access, scan coverage, required expertise and any separate testing are agreed before the assessment begins.</span></div>
+      </div>
+    </section>
+
+    <section class="section audience-section" id="audiences" aria-labelledby="audience-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">Same method · different context</p>
+          <h2 id="audience-title">One assessment for buyers and investor teams.</h2>
+          <p>The core sequence stays the same for an individual buyer or a small investor group. Scope and level of detail follow the property and the decision at hand.</p>
+        </div>
+        <div class="audience-content">
+          <div class="audience-tabs" role="tablist" aria-label="Choose an investment context">
+            <button class="audience-tab" id="tab-private" type="button" role="tab" aria-selected="true" aria-controls="panel-private"><strong>Private investor</strong><span>A defined budget and one property decision</span></button>
+            <button class="audience-tab" id="tab-group" type="button" role="tab" aria-selected="false" aria-controls="panel-group" tabindex="-1"><strong>Investor group</strong><span>Shared capital, more areas or options</span></button>
+          </div>
+          <div>
+            <div class="audience-panel" id="panel-private" role="tabpanel" aria-labelledby="tab-private" tabindex="0">
+              <h3>Check the works budget before you buy.</h3>
+              <p>See which repairs and changes your plans require, and how the estimated cost compares with your budget.</p>
+              <div class="focus-grid"><div class="focus-item"><small>Review focus</small><span>Which work is essential, and what can wait?</span></div><div class="focus-item"><small>Report focus</small><span>Priorities, quantities, cost range and open checks for one property.</span></div></div>
+            </div>
+            <div class="audience-panel" id="panel-group" role="tabpanel" aria-labelledby="tab-group" tabindex="0" hidden>
+              <h3>Compare the work and cost across units or layouts.</h3>
+              <p>Give everyone reviewing the property the same technical findings and cost assumptions.</p>
+              <div class="focus-grid"><div class="focus-item"><small>Review focus</small><span>How condition and work scope vary by area or option.</span></div><div class="focus-item"><small>Report focus</small><span>Work items and cost ranges broken down by area and scenario.</span></div></div>
+            </div>
+            <div class="one-method"><strong>One service</strong><span>LiDAR capture · expert site review · scenario analysis · technical report</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deliverable" aria-labelledby="deliverable-title">
+      <div class="wrap report-layout">
+        <div class="section-heading">
+          <p class="eyebrow">What you receive</p>
+          <h2 id="deliverable-title">One report for condition, work and cost.</h2>
+          <p>See what we measured and observed, which findings led to each work item, and what still needs checking. The cost range shows the quantities, rate sources and assumptions that underpin it.</p>
+        </div>
+        <div class="report-list">
+          <div class="report-row"><span class="row-icon" aria-hidden="true">3D</span><strong>Measured model</strong><span>LiDAR-based geometry, visualisations and noted scan coverage.</span></div>
+          <div class="report-row"><span class="row-icon" aria-hidden="true">◎</span><strong>Condition register</strong><span>Location-linked observations, supporting images and confirmation level.</span></div>
+          <div class="report-row"><span class="row-icon" aria-hidden="true">↳</span><strong>Scenario work list</strong><span>Physical work items with quantities, priorities and items to clarify.</span></div>
+          <div class="report-row"><span class="row-icon" aria-hidden="true">±</span><strong>Cost range</strong><span>Physical works only, with quantities, rate sources, dates and assumptions.</span></div>
+          <div class="report-row"><span class="row-icon" aria-hidden="true">✓</span><strong>Technical conclusion</strong><span>Fit with the selected physical outcome, key risks and next checks.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section example-section" aria-labelledby="example-title">
+      <div class="wrap example-board">
+        <div class="example-top"><div><h2 id="example-title">How we estimate a flooring replacement.</h2></div><span class="demo-stamp">Illustrative calculation</span></div>
+        <div class="trace-grid">
+          <article class="trace-step"><small>Observed</small><h3>Worn floor finish</h3><p>The inspection records the visible wear in the living room.</p></article>
+          <article class="trace-step"><small>Measured</small><h3>20 m² from the model</h3><p>The floor area comes from the living room in the LiDAR model.</p></article>
+          <article class="trace-step"><small>Planned work</small><h3>Replace the floor finish</h3><p>The agreed scope covers removing the existing finish and fitting a new one.</p></article>
+          <article class="trace-step"><small>Cost basis</small><h3>€600–€900</h3><p>20 m² at an illustrative rate of €30–€45 per m². Subfloor repairs would be costed separately if needed.</p></article>
+        </div>
+        <div class="trace-footer"><span>Cost ranges are estimates for physical works, not a contractor's final offer. We document the source and date of the rates we use.</span></div>
+      </div>
+    </section>
+
+    <section class="section limits-section" id="limits" aria-labelledby="limits-title">
+      <div class="wrap limits-box">
+        <div><p class="eyebrow">Scope of assessment</p><h2 id="limits-title">What we can verify on site.</h2><p>LiDAR records accessible geometry. Expert inspection assesses visible conditions. The report marks areas with limited access and findings that need separate investigation.</p></div>
+        <ul class="limit-list">
+          <li><strong>Hidden construction</strong>Concealed defects are not treated as inspected without opening-up or a separate survey.</li>
+          <li><strong>System operation</strong>Equipment function needs the appropriate safe test and qualified specialist.</li>
+          <li><strong>Structural capacity</strong>Visible warning signs can be recorded; structural calculations require a structural engineer.</li>
+          <li><strong>Investment returns</strong>No rent, occupancy, resale value or yield forecast is produced.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="enquiry" aria-labelledby="enquiry-title">
+      <div class="wrap contact-shell">
+        <div class="contact-copy">
+          <p class="eyebrow">Start with the property</p>
+          <h2 id="enquiry-title">What are you trying to decide?</h2>
+          <p>Share the property and decision you are considering. We use your brief to understand the scope and discuss the assessment.</p>
+          <div class="contact-meta"><span><i></i> Cyprus and the Netherlands</span><span><i></i> Purchase review or existing asset</span><span><i></i> No return forecasts</span></div>
+        </div>
+        <form class="brief-form" id="brief-form">
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" maxlength="150" required></div>
+          <div class="field"><label for="contact">How can we reach you?</label><input id="contact" name="contact" autocomplete="off" placeholder="Email, phone or Telegram" maxlength="200" required></div>
+          <div class="field"><label for="location">Property location</label><select id="location" name="location" required><option value="">Select a market</option><option>Cyprus</option><option>The Netherlands</option></select></div>
+          <div class="field"><label for="type">Property type</label><select id="type" name="type" required><option value="">Select a type</option><option>Residential</option><option>Office or commercial</option><option>Mixed-use</option><option>Other</option></select></div>
+          <div class="field field--full"><label for="audience">Who is considering the property?</label><select id="audience" name="audience" required><option value="">Select an investor context</option><option>Private buyer or individual investor</option><option>Investor group or multiple units</option></select></div>
+          <div class="field field--full"><label for="stage">Where are you in the decision?</label><select id="stage" name="stage" required><option value="">Select a stage</option><option>Considering a purchase</option><option>Already own the property</option><option>Planning physical works</option></select></div>
+          <div class="field field--full"><label for="scenario">What physical outcome are you considering?</label><textarea id="scenario" name="scenario" maxlength="1400" placeholder="For example: make the property ready for personal use, rental or sale after works." required></textarea></div>
+          <div class="form-actions"><button class="button" type="submit">Prepare enquiry</button><span class="form-note" id="form-note" role="status" aria-live="polite">This form prepares a brief in your browser. It does not upload or store your details. You can review the message in your email app before sending it to Datum.</span></div>
+          <div class="brief-output" id="brief-output" aria-live="polite"><h3 id="form-result-title">Your property brief</h3><pre id="brief-text"></pre><a class="button button--small" id="send-email" href="mailto:metelki@gmail.com?subject=Datum%20property%20assessment%20enquiry">Open email draft</a><button type="button" id="copy-brief">Copy brief</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner"><div><strong>Datum</strong><br>LiDAR property assessment · Cyprus / The Netherlands</div><div class="footer-links"><a href="#evidence">Measurement basis</a><a href="#limits">Scope and limits</a><a href="#top">Back to top</a></div></div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('#main-nav');
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      menuButton.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
+      mainNav.classList.toggle('is-open', !open);
+    });
+    mainNav.addEventListener('click', event => {
+      if (event.target.closest('a')) {
+        mainNav.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation');
+      }
+    });
+
+    const audienceTabs = [...document.querySelectorAll('[role="tab"]')];
+    function selectAudience(tab) {
+      audienceTabs.forEach(item => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+        document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+      });
+    }
+    audienceTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectAudience(tab));
+      tab.addEventListener('keydown', event => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = audienceTabs[(index + direction + audienceTabs.length) % audienceTabs.length];
+        selectAudience(next);
+        next.focus();
+      });
+    });
+
+    const form = document.querySelector('#brief-form');
+    const briefOutput = document.querySelector('#brief-output');
+    const briefText = document.querySelector('#brief-text');
+    const formNote = document.querySelector('#form-note');
+    const formResultTitle = document.querySelector('#form-result-title');
+    const sendEmail = document.querySelector('#send-email');
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const brief = [
+        'DATUM — PROPERTY ASSESSMENT BRIEF',
+        `Name: ${data.get('name').trim()}`,
+        `Contact: ${data.get('contact').trim()}`,
+        `Location: ${data.get('location')}`,
+        `Property type: ${data.get('type')}`,
+        `Investor context: ${data.get('audience')}`,
+        `Decision stage: ${data.get('stage')}`,
+        `Physical outcome: ${data.get('scenario').trim()}`,
+        '',
+        'Service: LiDAR capture, expert inspection and scenario-based budgets for physical works.'
+      ].join('\n');
+      briefText.textContent = brief;
+      sendEmail.href = `mailto:metelki@gmail.com?subject=${encodeURIComponent('Datum property assessment enquiry')}&body=${encodeURIComponent(brief)}`;
+      formResultTitle.textContent = 'Your property brief';
+      formNote.textContent = 'Your brief is ready. Select "Open email draft" to review it in your email app and send it to Datum.';
+      briefOutput.classList.add('is-visible');
+      briefOutput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    document.querySelector('#copy-brief').addEventListener('click', async event => {
+      const button = event.currentTarget;
+      try {
+        await navigator.clipboard.writeText(briefText.textContent);
+      } catch {
+        const helper = document.createElement('textarea');
+        helper.value = briefText.textContent;
+        helper.setAttribute('readonly', '');
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.append(helper);
+        helper.select();
+        document.execCommand('copy');
+        helper.remove();
+      }
+      button.textContent = 'Copied';
+      window.setTimeout(() => { button.textContent = 'Copy brief'; }, 1600);
+    });
+  </script>
+</body>
+</html>
